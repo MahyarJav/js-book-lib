@@ -1,79 +1,143 @@
-let myLibrary = [["Meow", "meow", 12, "read"], ["Woof", "woof", 100, "read"], ["Screech", "screech", 200, "not read"]];
+const myLibrary = [
+    {
+        title: "Atomic Habits",
+        author: "James Clear",
+        pages: 240,
+        read: true
+    },
+];
+
 function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.read = read;
-    this.info = function () {
-        return `${title} by ${author}, ${pages}, ${read}`
-    }
 }
 
-function addBookToLibrary(newBook) {
-    myLibrary.push([newBook])
+//Dom Form Elements
+
+const form = document.getElementById("newBookForm")
+const formContainer = document.getElementById("form-container")
+
+function formInfo(e) {
+    tableBody.innerHTML = ""
+    const formData = (document.getElementsByClassName("form-data"))
+    let title = formData[0].value
+    let author = formData[1].value
+    let pages = formData[2].value
+    let read = formData[3].checked
+    let newBook = new Book(title, author, pages, read)
+    console.log(newBook)
+    myLibrary.push(newBook)
+    formContainer.style.display = "none"
+    displayLibrary(myLibrary)
 }
+
+form.addEventListener("submit", (e) => {
+
+    e.preventDefault();
+
+    formInfo()
+
+    form.reset()
+
+})
+
+function showForm() {
+
+    formContainer.style.display = "block"
+
+}
+
+function closeForm() {
+
+    formContainer.style.display = "none"
+
+}
+
+// DOM Table/content elements
 
 const mainSection = document.getElementById("main-container")
 
 const newBookButton = document.createElement("button");
-newBookButton.textContent = "New Book"
+newBookButton.textContent = "Add"
 newBookButton.classList.add("new-book-button")
-const formContainer = document.getElementById("form-container")
-newBookButton.addEventListener("click", function () { formContainer.classList = "form" })
-mainSection.appendChild(newBookButton)
-const formElem = document.getElementById("newBookForm")
-
-formElem.onsubmit = addBookToLibrary(formElem)
-
-function submitForm(e) {
-    e.preventDefault
-
-
-}
+newBookButton.addEventListener("click", () => showForm())
 
 const mainTable = document.createElement("table");
 mainTable.classList.add("main-table")
+
+const tableBody = document.createElement("tbody")
+tableBody.classList.add("tableBody")
+
 const titleHeader = document.createElement("th");
 titleHeader.textContent = "Title";
 titleHeader.classList.add("title-header")
+
 const authorHeader = document.createElement("th");
 authorHeader.textContent = "Author";
 authorHeader.classList.add("author-header")
+
 const pagesHeader = document.createElement("th");
 pagesHeader.textContent = "Pages";
 pagesHeader.classList.add("pages-header")
+
 const readHeader = document.createElement("th");
 readHeader.textContent = "Read";
 readHeader.classList.add("read-header")
+
+const deleteHeader = document.createElement("th");
+deleteHeader.textContent = "Delete"
+deleteHeader.classList.add("delete-header")
+
 
 mainTable.appendChild(titleHeader)
 mainTable.appendChild(authorHeader)
 mainTable.appendChild(pagesHeader)
 mainTable.appendChild(readHeader)
+mainTable.appendChild(deleteHeader)
+mainTable.appendChild(tableBody)
+
 mainSection.appendChild(mainTable);
+mainSection.appendChild(newBookButton)
 
 
 
-function displayLibrary() {
-    for (let values of myLibrary) {
-        const bookRow = document.createElement("tr");
-        const titleData = document.createElement("td");
-        const authorData = document.createElement("td");
-        const pagesData = document.createElement("td");
-        const readData = document.createElement("td");
-        titleData.textContent = values[0]
-        authorData.textContent = values[1]
-        pagesData.textContent = values[2]
-        readData.textContent = values[3]
-        bookRow.appendChild(titleData)
-        bookRow.appendChild(authorData)
-        bookRow.appendChild(pagesData)
-        bookRow.appendChild(readData)
-        mainTable.appendChild(bookRow)
+function displayLibrary(library) {
+    if (library.length !== 0) {
+        for (let values of library) {
+
+            const bookRow = document.createElement("tr");
+            const titleData = document.createElement("td");
+            const authorData = document.createElement("td");
+            const pagesData = document.createElement("td");
+            const readData = document.createElement("td");
+            const deleteButton = document.createElement("button")
+
+            deleteButton.type = "button"
+            deleteButton.classList.add("button")
+            deleteButton.addEventListener("click", (e) => {
+                e.target.parentNode.remove()
+            })
+
+            titleData.textContent = values.title
+            authorData.textContent = values.author
+            pagesData.textContent = values.pages
+            readData.textContent = values.read ? "Read" : "Not Read"
+
+            bookRow.appendChild(titleData)
+            bookRow.appendChild(authorData)
+            bookRow.appendChild(pagesData)
+            bookRow.appendChild(readData)
+            bookRow.appendChild(deleteButton)
+
+            tableBody.appendChild(bookRow)
+
+        }
     }
 }
 
 
 window.onload = function pageRender() {
-    displayLibrary();
+    displayLibrary(myLibrary);
 }

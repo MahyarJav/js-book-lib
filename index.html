@@ -4,28 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Personal Book Library</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,900;1,300;1,400&display=swap"
+        rel="stylesheet">
     <script src="jslib.js" defer></script>
 </head>
 
 <body>
-    <header></header>
-    <main class="content" id="main=content">
+    <header class="header">
+        <h1>Personal Book Library</h1>
+    </header>
+    <main class="content" id="main-content">
         <section class="container" id="main-container"></section>
     </main>
-    <div class="form hidden" id="form-container">
+    <div class="form" id="form-container">
         <form id="newBookForm">
-            <label for="form-title">Book Title: </label>
-            <input type="text" id="form-title" name="form-title"></input>
-            <label for="form-author">Author: </label>
-            <input type="text" id="form-author" name="form-author"></input>
-            <label for="form-pages">Pages: </label>
-            <input type="number" id="form-pages" name="form-pages"></input>
-            <label for="form-read">Read: </label>
-            <input type="radio" id="form-read-yes" name="form-read">Yes</input>
-            <input type="radio" id="form-read-no" name="form-read">No</input>
-            <button type="submit">Submit</button>
+            <fieldset id="book-info">
+                <input type="text" class="form-data" id="form-title" name="form-title" placeholder="Book Title"
+                    required />
+                <input type="text" class="form-data" id="form-author" name="form-author" placeholder="Author"
+                    required />
+                <input type="number" class="form-data" id="form-pages" name="form-pages" placeholder="Page count"
+                    required />
+            </fieldset>
+            <fieldset>
+                <label for="form-read" id="read-label">Read?</label>
+                <input type="checkbox" class="form-data" id="form-read" name="form-read" checked />
+            </fieldset>
+            <fieldset id="submit-field">
+                <button type="button" onclick="closeForm()">Close</button>
+                <button type="submit">Submit</button>
+            </fieldset>
         </form>
     </div>
     <footer></footer>
